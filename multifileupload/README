@@ -1,0 +1,7 @@
+server.py
+what is does 
+start server, acceptclient, receive file and saves the fileinto the storage
+
+
+connect → send 1 file → close
+connect → send number_of_files → loop → send each file → close

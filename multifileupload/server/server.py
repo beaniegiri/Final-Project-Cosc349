@@ -43,10 +43,20 @@ def receivefiledata(conn, filename, filesize):
             received+=len(data)
     print(f"[DONE] File saved: {filepath}")
 
+def receivenumofiles(conn):
+    numfiles= int(conn.recv(BUFFERSIZE).decode())
+    conn.send("OK".encode())
+    return numfiles
+
 def handleclient(conn):
     try:
-        filename, filesize= receivefileinfo(conn)
-        receivefiledata(conn, filename, filesize)
+        
+        numfiles=receivenumofiles(conn)
+        print(f"[INFO] Receiving {numfiles} files")
+
+        for _ in range(numfiles):
+            filename, filesize= receivefileinfo(conn)
+            receivefiledata(conn, filename, filesize)
     except Exception as e:
         print("ERROR", e)
     finally:
