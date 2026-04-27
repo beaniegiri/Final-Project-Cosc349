@@ -1,0 +1,44 @@
+body {
+    background-color: #0c0c0c;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    border: 3px solid #fff;
+    padding: 50px;
+    width: 600px;
+    box-shadow: 10px 10px 0px #333;
+}
+
+h1 { font-size: 2.5rem; text-transform: uppercase; margin-bottom: 0; }
+p { color: #888; margin-top: 5px; margin-bottom: 30px; }
+
+.upload-zone {
+    border: 2px dashed #444;
+    padding: 60px 20px;
+    margin-bottom: 20px;
+}
+
+.btn-main {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 20px 40px;
+    font-weight: 900;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+.btn-main:hover {
+    background-color: #00ff00; /* Neon green for action */
+}
+
+#status-bar { font-size: 0.8rem; border-top: 1px solid #333; padding-top: 20px; }
+.online { color: #00ff00; }

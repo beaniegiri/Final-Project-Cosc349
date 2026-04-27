@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deckside | Multi-File Transfer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Deckside Transfer <small>v1.0</small></h1>
+            <p>COSC 349: Secure TCP Upload System</p>
+        </header>
+
+        <section class="upload-zone">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="input-wrapper">
+                    <input type="file" name="file_list" id="file_list" multiple>
+                    <label for="file_list">DRAG & DROP OR BROWSE</label>
+                </div>
+                <button type="submit" class="btn-main">INITIALIZE TCP STREAM</button>
+            </form>
+        </section>
+
+        <div id="status-bar">
+            <span>NETWORK STATUS: <strong class="online">CONNECTED</strong></span>
+        </div>
+    </div>
+</body>
+</html>
