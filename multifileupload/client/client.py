@@ -51,6 +51,9 @@ def uploadfile(filelist):
         sendfiledata(client, filepath, filesize)
     client.close()
 
+def upload_files_from_list(file_paths):
+    print("[DEBUG] Sending files:", file_paths)
+    uploadfile(file_paths)
 
 if __name__ == "__main__":
     files = input("Enter file path sepearted by comma: ").split(",")
