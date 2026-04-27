@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi File Upload System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Multi File Upload System</h1>
+        <p class="subtitle">Upload multiple files at once to the server</p>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">&#128193;</div>
+            <p>Drag & drop files here</p>
+            <p class="or">— or —</p>
+            <label for="fileInput" class="browse-btn">Browse Files</label>
+            <input type="file" id="fileInput" multiple hidden>
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+
+        <button class="upload-btn" id="uploadBtn" disabled>Upload All Files</button>
+
+        <div class="results" id="results"></div>
+
+        <div class="stored-files">
+            <h2>Files on Server</h2>
+            <button class="refresh-btn" id="refreshBtn">Refresh</button>
+            <ul id="serverFiles"></ul>
+        </div>
+    </div>
+
+    <script src="upload.js"></script>
+</body>
+</html>
