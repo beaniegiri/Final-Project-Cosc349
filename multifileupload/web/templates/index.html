@@ -61,6 +61,8 @@
         <button type="submit">Upload</button>
     </form>
 
+
+
     <h3>Uploaded Files</h3>
     <ul>
         {% for file in files %}
@@ -68,6 +70,32 @@
         {% endfor %}
     </ul>
 </div>
+<div id="progress-container" style="margin-top:20px;">
+    <p id="file-name"></p>
+    <div style="width:100%; background:#ddd; border-radius:5px;">
+        <div id="progress-bar" style="
+            width:0%;
+            height:20px;
+            background:green;
+            border-radius:5px;">
+        </div>
+    </div>
+    <p id="percent"></p>
+</div>
 
+<script>
+function fetchProgress() {
+    fetch("/progress")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("file-name").innerText = data.current_file;
+        document.getElementById("progress-bar").style.width = data.progress + "%";
+        document.getElementById("percent").innerText = data.progress + "%";
+    });
+}
+
+// call every 1 second
+setInterval(fetchProgress, 1000);
+</script>
 </body>
 </html>

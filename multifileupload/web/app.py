@@ -1,15 +1,22 @@
 from flask import Flask, render_template, request, redirect
+from flask import jsonify
 import os
 import sys
 
 # allow import from client folder
 sys.path.append("../client")
-from client import upload_files_from_list
+from client import uploadfile
 
 app = Flask(__name__)
+progress_data={"current_file": "",
+               "progress" :0
+
+}
 
 UPLOAD_FOLDER = "temp_uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
 
 # -----------------------------
 def save_uploaded_files(files):
@@ -27,6 +34,11 @@ def get_uploaded_files():
         return []
     return os.listdir(storage_path)
 
+def update_progress(file, percent):
+    global progress_data
+    progress_data["current_file"]=file
+    progress_data['progress']=percent
+
 # -----------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -34,15 +46,17 @@ def index():
         files = request.files.getlist("files")
 
         paths = save_uploaded_files(files)
-
         # send via socket
-        upload_files_from_list(paths)
+        uploadfile(paths, progress_callback=update_progress)
 
         return redirect("/")
 
     uploaded_files = get_uploaded_files()
     return render_template("index.html", files=uploaded_files)
 
+@app.route("/progress")
+def progress():
+    return jsonify(progress_data)
 # -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)

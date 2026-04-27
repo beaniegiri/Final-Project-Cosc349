@@ -29,7 +29,7 @@ def sendfileinfo(client, filepath):
 
     return filename, filesize
 
-def sendfiledata(client, filepath, filesize):
+def sendfiledata(client, filepath, filesize, progress_callback=None):
     sent=0
     with open(filepath, "rb") as f:
         while True:
@@ -39,11 +39,14 @@ def sendfiledata(client, filepath, filesize):
             client.send(data)
             sent += len(data)
 
-            progress= (sent/filesize)*100
+            progress= int((sent/filesize)*100)
             print(f"[UPLOAD] {filepath}: {progress:.2f}%")
+
+            if progress_callback:
+                progress_callback(filepath, progress)
     print("[DONE] {file_path} uploaded\n")
 
-def uploadfile(filelist):
+def uploadfile(filelist, progress_callback= None):
     client=createclient()
     sendnumoffiles(client, filelist)
     for filepath in filelist:
