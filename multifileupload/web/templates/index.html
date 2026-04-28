@@ -47,6 +47,13 @@
             padding: 10px;
             border-radius: 5px;
         }
+    #progress-bar {
+        width: 0%;
+        height: 20px;
+        background: green;
+        border-radius: 5px;
+        transition: width 0.4s ease; 
+    }
     </style>
 </head>
 <body>
@@ -83,6 +90,7 @@
     <p id="percent"></p>
 </div>
 
+
 <script>
 function fetchProgress() {
     fetch("/progress")
@@ -95,7 +103,7 @@ function fetchProgress() {
 }
 
 // call every 1 second
-setInterval(fetchProgress, 1000);
+setInterval(fetchProgress, 200);
 </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask import jsonify
 import os
 import sys
+import threading
 
 # allow import from client folder
 sys.path.append("../client")
@@ -36,6 +37,7 @@ def get_uploaded_files():
 
 def update_progress(file, percent):
     global progress_data
+    print("[DEBUG]", file, percent)
     progress_data["current_file"]=file
     progress_data['progress']=percent
 
@@ -47,7 +49,16 @@ def index():
 
         paths = save_uploaded_files(files)
         # send via socket
-        uploadfile(paths, progress_callback=update_progress)
+        progress_data["progress"] = 0
+        progress_data["current_file"] = ""
+
+    # run upload in background
+        thread = threading.Thread(
+            target=uploadfile,
+            args=(paths,),
+            kwargs={"progress_callback": update_progress}
+        )
+        thread.start()
 
         return redirect("/")
 
