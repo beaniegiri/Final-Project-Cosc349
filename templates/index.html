@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deckside | Multi-File Transfer</title>
+    <title>SYN/ACK | Multi-File Transfer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Deckside Transfer <small>v1.0</small></h1>
-            <p>COSC 349: Secure TCP Upload System</p>
+            <h1>SYN/ACK TRANSFER <small>v1.0</small></h1>
+            <p>COSC 349: Reliable Multi-File TCP Stream</p>
         </header>
+
+        {% if message %}
+        <div class="notification {{ status }}">
+            {{ message }}
+        </div>
+        {% endif %}
 
         <section class="upload-zone">
             <form action="/upload" method="post" enctype="multipart/form-data">
@@ -24,6 +30,7 @@
 
         <div id="status-bar">
             <span>NETWORK STATUS: <strong class="online">CONNECTED</strong></span>
+            <span style="margin-left: 20px; color: #555;">PROTOCOL: TCP (SYN/ACK HANDSHAKE)</span>
         </div>
     </div>
 </body>

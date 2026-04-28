@@ -42,3 +42,21 @@ p { color: #888; margin-top: 5px; margin-bottom: 30px; }
 
 #status-bar { font-size: 0.8rem; border-top: 1px solid #333; padding-top: 20px; }
 .online { color: #00ff00; }
+
+.notification {
+    margin: 20px 0;
+    padding: 15px;
+    border: 2px solid #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.success {
+    background-color: #00ff00; /* Neon Green */
+    color: #000;
+}
+
+.error {
+    background-color: #ff0000; /* Red */
+    color: #fff;
+}
