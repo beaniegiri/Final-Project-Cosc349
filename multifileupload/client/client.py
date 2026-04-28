@@ -51,7 +51,7 @@ def uploadfile(filelist, progress_callback= None):
     sendnumoffiles(client, filelist)
     for filepath in filelist:
         filename, filesize = sendfileinfo(client, filepath)
-        sendfiledata(client, filepath, filesize)
+        sendfiledata(client, filepath, filesize, progress_callback)
     client.close()
 
 def upload_files_from_list(file_paths):
