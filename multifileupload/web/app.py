@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, url_for
 from flask import jsonify
 import os
 import sys
@@ -12,6 +12,11 @@ app = Flask(__name__)
 progress_data={"current_file": "",
                "progress" :0
 
+}
+app.secret_key = "secret123" 
+USER = {
+    "username": "admin",
+    "password": "1234"
 }
 
 UPLOAD_FOLDER = "temp_uploads"
@@ -44,6 +49,8 @@ def update_progress(file, percent):
 # -----------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
+    if "user" not in session:
+        return redirect(url_for('login'))
     if request.method == "POST":
         files = request.files.getlist("files")
 
@@ -68,6 +75,25 @@ def index():
 @app.route("/progress")
 def progress():
     return jsonify(progress_data)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username == USER["username"] and password == USER["password"]:
+            session["user"] = username
+            return redirect(url_for("index"))
+        else:
+            return "Invalid credentials"
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 # -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
