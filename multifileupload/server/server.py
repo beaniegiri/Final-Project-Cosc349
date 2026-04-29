@@ -19,7 +19,7 @@ def acceptclient(server):
     print(f"[CONNECTED] {addr}")
     return conn
 
-def receivefileinfo(conn):
+def receivefileinfo(conn): 
     filename= conn.recv(BUFFERSIZE).decode()
     conn.send("OK".encode())
 

@@ -41,7 +41,43 @@ def sendfiledata(client, filepath, filesize):
 
             progress= (sent/filesize)*100
             print(f"[UPLOAD] {filepath}: {progress:.2f}%")
-    print("[DONE] {file_path} uploaded\n")
+    print(f"[DONE] {filepath} uploaded\n")
+
+
+def list_files(client):
+    client.send(b"LIST")
+    files = client.recv(BUFFERSIZE).decode()
+    print("\n[SERVER FILES]")
+    print(files)
+
+
+def download_file(client, filename):
+    client.send(f"DOWNLOAD {filename}".encode())
+
+    response = client.recv(BUFFERSIZE).decode()
+    if response == "NOT_FOUND":
+        print("[ERROR] File not found on server")
+        return
+
+    filesize = int(response)
+    client.send(b"OK")
+
+    filepath = f"downloaded_{filename}"
+    received = 0
+
+    with open(filepath, "wb") as f:
+        while received < filesize:
+            data = client.recv(BUFFERSIZE)
+            if not data:
+                break
+            f.write(data)
+            received += len(data)
+
+            progress = (received / filesize) * 100
+            print(f"[DOWNLOAD] {filename}: {progress:.2f}%")
+
+    print(f"[DONE] {filename} downloaded\n")
+
 
 def uploadfile(filelist):
     client=createclient()
@@ -53,7 +89,26 @@ def uploadfile(filelist):
 
 
 if __name__ == "__main__":
-    files = input("Enter file path sepearted by comma: ").split(",")
-    files = [f.strip() for f in files]
-
-    uploadfile(files)
+    while True:
+        print("\n1. Upload files")
+        print("2. List server files") 
+        print("3. Download file")
+        print("4. Exit")
+        
+        choice = input("Choose option: ")
+        
+        if choice == "1":
+            files = input("Enter file paths separated by comma: ").split(",")
+            files = [f.strip() for f in files]
+            uploadfile(files)
+        elif choice == "2":
+            client = createclient()
+            list_files(client)
+            client.close()
+        elif choice == "3":
+            filename = input("Enter filename to download: ")
+            client = createclient()
+            download_file(client, filename)
+            client.close()
+        elif choice == "4":
+            break
